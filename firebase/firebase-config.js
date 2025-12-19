@@ -1,10 +1,7 @@
+// firebase/firebase-config.js
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import {
-    getFirestore,
-    collection,
-    addDoc,
-    getDocs
-} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAK3MdF8MKCClWra5sK9bxAbIz5p82igQo",
@@ -16,21 +13,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
-// Save issue
-export async function saveIssue(issueData) {
-    await addDoc(collection(db, "issues"), {
-        ...issueData,
-        timestamp: new Date().toISOString(),
-        status: "pending"
-    });
-}
+// ✅ ONLY export db from config
+export const db = getFirestore(app);
 
-// Read issues
-export async function readIssues() {
-    const snapshot = await getDocs(collection(db, "issues"));
-    snapshot.forEach(doc => {
-        console.log(doc.id, doc.data());
-    });
-}
