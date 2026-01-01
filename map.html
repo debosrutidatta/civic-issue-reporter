@@ -1,20 +1,66 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>City Issue Map</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
-    <style>
-        #map { height: 100vh; width: 100%; }
-        body { margin: 0; }
-    </style>
-</head>
-<body>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Report Issue - Select Location</title>
 
-    <div id="map"></div>
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap"
+        />
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="map.js"></script>
+        <link rel="stylesheet" href="map-style.css" />
+    </head>
+    <body>
+        <div id="report-sidebar">
+            <h2>Report an Issue 📢</h2>
+            <p>
+                1. Click on the map to pin the exact location.<br />2. Fill out
+                the details below.
+            </p>
 
-</body>
+            <label>Selected Location:</label>
+            <div class="location-box" id="latlng-display">
+                No location selected
+            </div>
+            <input type="hidden" id="lat" />
+            <input type="hidden" id="lng" />
+
+            <label>Issue Category:</label>
+            <select id="category">
+                <option value="" disabled selected>-- Select Type --</option>
+                <option value="pothole">🚧 Pothole / Road</option>
+                <option value="garbage">🗑️ Garbage Dump</option>
+                <option value="streetlight">💡 Street Light</option>
+                <option value="water">💧 Water Leakage</option>
+                <option value="other">❓ Other</option>
+            </select>
+
+            <label>Description:</label>
+            <textarea
+                id="description"
+                rows="4"
+                placeholder="Describe the issue..."
+            ></textarea>
+
+            <button class="btn-submit" id="submitBtn">🚀 Submit Report</button>
+
+            <div id="status-msg"></div>
+
+            <a href="index.html" class="back-link">&larr; Back to Home</a>
+        </div>
+
+        <div id="map"></div>
+
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+        <script src="map.js"></script>
+
+        <script type="module" src="map-logic.js"></script>
+    </body>
 </html>

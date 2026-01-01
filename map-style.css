@@ -1,0 +1,106 @@
+/* map-style.css */
+body {
+    margin: 0;
+    font-family: "Roboto", sans-serif;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Map & Sidebar Layout */
+#map {
+    flex-grow: 1;
+    height: 100%;
+    z-index: 1;
+    cursor: crosshair;
+}
+
+#report-sidebar {
+    width: 350px;
+    background: white;
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* Typography & Form Elements */
+h2 {
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 15px;
+    display: block;
+    color: #34495e;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Buttons */
+.btn-submit {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: background 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: #c0392b;
+}
+
+/* Utilities */
+.location-box {
+    background: #f8f9fa;
+    border: 1px dashed #bdc3c7;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.back-link {
+    text-align: center;
+    margin-top: 15px;
+    display: block;
+    color: #95a5a6;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
