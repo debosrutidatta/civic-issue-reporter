@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civic Connect - Government Dashboard</title>
+    <style>
+        /* Sidebar */
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            display: flex;
+            background-color: #f4f4f9;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+        }
+
+        .sidebar p {
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .sidebar p:hover {
+            background: #34495e;
+        }
+
+        /* Main Content */
+        .content {
+            flex: 1;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #34495e;
+            color: white;
+        }
+
+        /* Urgency Badges */
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: white;
+        }
+
+        .high {
+            background: #e74c3c;
+        }
+
+        /* Red */
+        .medium {
+            background: #f1c40f;
+            color: black;
+        }
+
+        /* Yellow */
+        .low {
+            background: #3498db;
+        }
+
+        /* Blue */
+
+        /* Status Dropdown */
+        select.status-dropdown {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-weight: bold;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .status-pending {
+            background-color: #ffebee;
+            color: #c62828;
+            border-color: #c62828;
+        }
+
+        .status-progress {
+            background-color: #fff8e1;
+            color: #f57f17;
+            border-color: #f57f17;
+        }
+
+        .status-resolved {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border-color: #2e7d32;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h2>🏛️ City Admin</h2>
+        <p>📊 Dashboard</p>
+        <p>📍 Active Map</p>
+        <p>⚙️ Settings</p>
+    </div>
+
+    <div class="content">
+        <h1>Incoming Public Reports</h1>
+        <table id="issues-table">
+            <thead>
+                <tr>
+                    <th>Department</th>
+                    <th>Issue Type</th>
+                    <th>Description</th>
+                    <th>Urgency</th>
+                    <th>Update Status</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        // MOCK DATA
+        const mockIssues = [
+            { id: "101", dept: "BBMP", category: "Roads", desc: "Huge pothole near MG Road metro", urgency: "High", status: "pending" },
+            { id: "102", dept: "BESCOM", category: "Electricity", desc: "Street light flickering for 3 days", urgency: "Medium", status: "in_progress" },
+            { id: "103", dept: "BBMP", category: "Garbage", desc: "Trash pile not collected on 5th Cross", urgency: "Low", status: "resolved" }
+        ];
+
+        // Render Table
+        function loadDashboard() {
+            const tableBody = document.querySelector("#issues-table tbody");
+            tableBody.innerHTML = "";
+            mockIssues.forEach(issue => {
+                const row = document.createElement("tr");
+                const urgencyClass = issue.urgency.toLowerCase();
+                let statusClass = "status-pending";
+                if (issue.status === "in_progress") statusClass = "status-progress";
+                if (issue.status === "resolved") statusClass = "status-resolved";
+                row.innerHTML = `
+<td><strong>${issue.dept}</strong></td>
+<td>${issue.category}</td>
+<td>${issue.desc}</td>
+<td><span class="badge ${urgencyClass}">${issue.urgency}</span></td>
+<td>
+<select class="status-dropdown ${statusClass}" onchange="updateStatus('${issue.id}', this)">
+<option value="pending" ${issue.status === 'pending' ? 'selected' : ''}>🔴 Pending</option>
+<option value="in_progress" ${issue.status === 'in_progress' ? 'selected' : ''}>🟡 In Progress</option>
+<option value="resolved" ${issue.status === 'resolved' ? 'selected' : ''}>🟢 Resolved</option>
+</select>
+</td>`;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Update Logic
+        window.updateStatus = function (id, dropdownElement) {
+            const newStatus = dropdownElement.value;
+            const issue = mockIssues.find(i => i.id === id);
+            if (issue) {
+                issue.status = newStatus;
+                dropdownElement.className = "status-dropdown";
+                if (newStatus === "pending") dropdownElement.classList.add("status-pending");
+                if (newStatus === "in_progress") dropdownElement.classList.add("status-progress");
+                if (newStatus === "resolved") dropdownElement.classList.add("status-resolved");
+                console.log(`Updated Issue ${id} to ${newStatus}`);
+            }
+        };
+
+        loadDashboard();
+    </script>
+</body>
+
+</html>
