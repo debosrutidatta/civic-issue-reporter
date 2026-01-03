@@ -11,28 +11,27 @@ import { db } from "./firebase-config.js";
 // Save issue
 export async function saveIssue(issueData) {
     console.log("🔥 Attempting to talk to Firebase...");
-    // --- TEMPORARY SIMULATION MODE ---
-    // We create a "Fake Delay" to pretend we are saving to the cloud
-    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    console.log("🔥 (Fake) Firebase responded: Success!");
-    console.log("📦 Data that WOULD be saved:", issueData);
+    try {
+        // --- REAL CODE ACTIVATED ---
+        // We create a new document in the "issues" collection
+        const docRef = await addDoc(collection(db, "issues"), {
+            ...issueData,
+            // We force a new timestamp here to be accurate
+            timestamp: new Date().toISOString(),
+            // Ensure status is pending
+            status: "pending",
+        });
 
-    return true; // Pretend it worked
-
-    // --- REAL CODE (Commented out until Member 2 fixes Rules) ---
-    /*
-    await addDoc(collection(db, "issues"), {
-        ...issueData,
-        timestamp: new Date().toISOString(),
-        status: "pending"
-    });
-    */
-
-    console.log("🔥 Firebase responded!");
+        console.log("✅ Saved to Cloud! ID: ", docRef.id);
+        return docRef.id; // Return the ID so we can confirm it
+    } catch (e) {
+        console.error("❌ Database Error: ", e);
+        throw e; // Pass error back to the UI to handle
+    }
 }
 
-// Read issues
+// Read issues(For the Admin Dashboard later)
 export async function readIssues() {
     const snapshot = await getDocs(collection(db, "issues"));
     snapshot.forEach((doc) => {
