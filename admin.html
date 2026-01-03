@@ -1,145 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Civic Connect - Government Dashboard</title>
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            display: flex;
-            background-color: #f4f4f9;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 250px;
-            background: #2c3e50;
-            color: white;
-            height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .sidebar h2 {
-            margin-top: 0;
-        }
-
-        .sidebar p {
-            padding: 12px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .sidebar p:hover {
-            background: #34495e;
-        }
+        body { font-family: 'Segoe UI', sans-serif; display: flex; background-color: #f4f4f9; margin: 0; }
+        
+        /* Sidebar Design */
+        .sidebar { width: 250px; background: #2c3e50; color: white; height: 100vh; padding: 20px; box-sizing: border-box; position: fixed; }
+        .sidebar h2 { margin-top: 0; }
+        .sidebar p { padding: 12px; cursor: pointer; border-radius: 5px; }
+        .sidebar p:hover { background: #34495e; }
 
         /* Main Content */
-        .content {
-            flex: 1;
-            padding: 40px;
-        }
+        .content { flex: 1; padding: 40px; margin-left: 250px; }
+        h1 { color: #2c3e50; }
 
-        h1 {
-            color: #2c3e50;
-        }
+        /* Table Design */
+        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background-color: #34495e; color: white; }
 
-        /* Table */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        th,
-        td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-
-        th {
-            background-color: #34495e;
-            color: white;
-        }
-
-        /* Urgency badges */
-        .badge {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: bold;
-            color: white;
-        }
-
-        .high {
-            background: #e74c3c;
-        }
-
-        .medium {
-            background: #f1c40f;
-            color: black;
-        }
-
-        .low {
-            background: #3498db;
-        }
-
-        /* Status dropdown */
-        select.status-dropdown {
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-weight: bold;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .status-pending {
-            background-color: #ffebee;
-            color: #c62828;
-            border-color: #c62828;
-        }
-
-        .status-progress {
-            background-color: #fff8e1;
-            color: #f57f17;
-            border-color: #f57f17;
-        }
-
-        .status-resolved {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            border-color: #2e7d32;
-        }
-
-        /* Highlight animation */
-        .highlight {
-            animation: flash 2s ease;
-        }
-
-        @keyframes flash {
-            0% {
-                background-color: #ffff99;
-            }
-
-            50% {
-                background-color: white;
-            }
-
-            100% {
-                background-color: white;
-            }
-        }
+        /* Badges & Dropdowns */
+        .badge { padding: 5px 12px; border-radius: 20px; font-weight: bold; color: white; font-size: 0.85em; }
+        .high { background: #e74c3c; }
+        .medium { background: #f1c40f; color: black; }
+        .low { background: #3498db; }
+        
+        select.status-dropdown { padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; cursor: pointer; }
+        .status-pending { background-color: #ffebee; color: #c62828; }
+        .status-progress { background-color: #fff8e1; color: #f57f17; }
+        .status-resolved { background-color: #e8f5e9; color: #2e7d32; }
     </style>
 </head>
-
 <body>
 
     <div class="sidebar">
@@ -165,111 +59,7 @@
         </table>
     </div>
 
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script type="module" src="admin.js"></script>
 
-    <script>
-        // Firebase config – replace with your own project details
-        const firebaseConfig = {
-            apiKey: "AIzaSyAK3MdF8MKCClWra5sK9bxAbIz5p82igQo",
-            authDomain: "ai-civic-issue-reporter-2.firebaseapp.com",
-            projectId: "ai-civic-issue-reporter-2",
-            storageBucket: "ai-civic-issue-reporter-2.firebasestorage.app",
-            messagingSenderId: "730468321462",
-            appId: "1:730468321462:web:4532b50322c7556bf4fe17"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        // Track rendered documents for highlighting
-        const renderedIds = new Set();
-
-        // Render function
-        function renderIssues(snapshot) {
-            const tableBody = document.querySelector("#issues-table tbody");
-            tableBody.innerHTML = "";
-
-            if (snapshot.empty) {
-                tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center;">No reports found</td></tr>`;
-                return;
-            }
-
-            let issuesArray = [];
-            snapshot.forEach(doc => {
-                const issue = doc.data();
-                issue.id = doc.id;
-                issuesArray.push(issue);
-            });
-
-            // Sort by urgency: High -> Medium -> Low
-            const urgencyOrder = { "High": 3, "Medium": 2, "Low": 1 };
-            issuesArray.sort((a, b) => (urgencyOrder[b.ai_analysis?.urgency || b.urgency] || 0) - (urgencyOrder[a.ai_analysis?.urgency || a.urgency] || 0));
-
-            issuesArray.forEach(issue => {
-                const id = issue.id;
-                const department = issue.ai_analysis?.department || issue.department || issue.Department || "N/A";
-                const category = issue.ai_analysis?.category || issue.category || issue.Category || "N/A";
-                const urgency = issue.ai_analysis?.urgency || issue.urgency || "Low";
-                const urgencyClass = urgency.toLowerCase();
-                const status = issue.status || "pending";
-
-                let statusClass = "status-pending";
-                if (status === "in_progress") statusClass = "status-progress";
-                if (status === "resolved") statusClass = "status-resolved";
-
-                const row = document.createElement("tr");
-                row.innerHTML = `
-              <td><strong>${department}</strong></td>
-              <td>${category}</td>
-              <td>${issue.user_description || "No description"}</td>
-              <td><span class="badge ${urgencyClass}">${urgency}</span></td>
-              <td>
-                  <select 
-                      class="status-dropdown ${statusClass}" 
-                      onchange="updateStatus('${id}', this)"
-                  >
-                      <option value="pending" ${status === 'pending' ? 'selected' : ''}>🔴 Pending</option>
-                      <option value="in_progress" ${status === 'in_progress' ? 'selected' : ''}>🟡 In Progress</option>
-                      <option value="resolved" ${status === 'resolved' ? 'selected' : ''}>🟢 Resolved</option>
-                  </select>
-              </td>
-          `;
-
-                if (!renderedIds.has(id)) {
-                    row.classList.add("highlight");
-                    renderedIds.add(id);
-                }
-
-                tableBody.appendChild(row);
-            });
-        }
-
-        // Update status in Firestore
-        window.updateStatus = function (id, dropdownElement) {
-            const newStatus = dropdownElement.value;
-            db.collection("issues").doc(id).update({ status: newStatus })
-                .then(() => {
-                    dropdownElement.className = "status-dropdown";
-                    if (newStatus === "pending") dropdownElement.classList.add("status-pending");
-                    if (newStatus === "in_progress") dropdownElement.classList.add("status-progress");
-                    if (newStatus === "resolved") dropdownElement.classList.add("status-resolved");
-                    console.log(`Updated Issue ${id} to ${newStatus}`);
-                })
-                .catch(err => console.error("Error updating status:", err));
-        }
-
-        // Load dashboard with real-time updates
-        function loadDashboard() {
-            db.collection("issues").orderBy("timestamp", "desc")
-                .onSnapshot(snapshot => {
-                    renderIssues(snapshot);
-                }, err => console.error("Error loading issues:", err));
-        }
-
-        loadDashboard();
-    </script>
 </body>
-
 </html>
