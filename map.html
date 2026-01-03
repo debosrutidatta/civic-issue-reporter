@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Report Issue - Select Location</title>
+
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap"
+        />
+
+        <link rel="stylesheet" href="map-style.css" />
+    </head>
+    <body>
+        <div id="report-sidebar">
+            <div id="form-container">
+                <h2>Report an Issue 📢</h2>
+                <p>
+                    1. Click map to pin location.<br />2. Fill out details
+                    below.
+                </p>
+
+                <label>Selected Location:</label>
+                <div class="location-box" id="latlng-display">
+                    No location selected
+                </div>
+                <input type="hidden" id="lat" />
+                <input type="hidden" id="lng" />
+
+                <label>Issue Category:</label>
+                <select id="category">
+                    <option value="" disabled selected>
+                        -- Select Type --
+                    </option>
+                    <option value="Roads">🚧 Pothole / Road</option>
+                    <option value="Garbage">🗑️ Garbage Dump</option>
+                    <option value="Electricity">💡 Street Light</option>
+                    <option value="Water Supply">💧 Water Leakage</option>
+                    <option value="Traffic">🚦 Traffic Issue</option>
+                </select>
+
+                <label>Description:</label>
+                <textarea
+                    id="description"
+                    rows="4"
+                    placeholder="Describe the issue..."
+                ></textarea>
+
+                <button class="btn-submit" id="submitBtn">
+                    🚀 Submit Report
+                </button>
+                <div id="status-msg"></div>
+
+                <a href="index.html" class="back-link">&larr; Back to Home</a>
+            </div>
+
+            <div id="success-container" style="display: none">
+                <span class="success-icon">🎉</span>
+                <h2 style="color: #27ae60">Report Sent!</h2>
+                <p>Thank you for being a responsible citizen.</p>
+
+                <div class="tracking-box">
+                    <small>Tracking ID:</small>
+                    <span id="track-id" class="tracking-id">...</span>
+                </div>
+
+                <button id="resetBtn" class="btn-secondary">
+                    Submit Another Issue
+                </button>
+
+                <br /><br />
+                <a href="index.html" class="back-link">&larr; Return to Home</a>
+            </div>
+        </div>
+
+        <div id="map"></div>
+
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script type="module" src="map.js"></script>
+    </body>
+</html>
