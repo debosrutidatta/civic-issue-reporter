@@ -1,0 +1,135 @@
+/* * issues.css 
+ * ---------------------------------------------------------------
+ * Styles for the "Community Feed" page (Citizen View).
+ * Implements a vertical scroll layout with "Glassmorphism" cards
+ * to match the modern UI theme of the application.
+ * ---------------------------------------------------------------
+ */
+
+/* 1. Layout Container */
+.issues-page {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    max-width: 600px;
+    height: 85vh;
+}
+
+/* 2. Header & Navigation */
+.header-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+/* 2. Header & Navigation */
+.back-link {
+    position: absolute;
+    left: 0;
+    color: #ffffff; 
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+    transition: transform 0.2s, opacity 0.2s;
+    opacity: 0.9;
+    z-index: 10; 
+}
+
+.back-link:hover {
+    transform: translateX(-5px);
+    opacity: 1; /* Bright white on hover */
+}
+
+.back-link:hover {
+    transform: translateX(-5px);
+}
+
+/* 3. The Scrollable List Area */
+.scroll-container {
+    flex-grow: 1; /* Fills remaining space */
+    overflow-y: auto; /* Allows scrolling */
+    padding-right: 10px;
+    text-align: left;
+}
+
+/* Custom Scrollbar (Clean look for WebKit browsers) */
+.scroll-container::-webkit-scrollbar {
+    width: 8px;
+}
+.scroll-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+.scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+/* 4. The Issue Card (Glassmorphism Effect) */
+.issue-card {
+    background: rgba(
+        255,
+        255,
+        255,
+        0.95
+    ); /* High opacity white for readability */
+    color: #333;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border-left: 6px solid #ccc; /* Default Grey Border */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    animation: slideIn 0.4s ease-out;
+}
+
+/* Urgency Color Indicators */
+.border-High {
+    border-left-color: #ef4444;
+} /* Red for Critical */
+.border-Medium {
+    border-left-color: #f59e0b;
+} /* Yellow for Watch */
+.border-Low {
+    border-left-color: #3b82f6;
+} /* Blue for Routine */
+
+/* Card Typography */
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #666;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    color: #1e293b; /* Dark Slate for contrast */
+}
+
+.card-bottom {
+    font-size: 0.8rem;
+    color: #64748b;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Entry Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

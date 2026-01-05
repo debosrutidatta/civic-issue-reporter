@@ -1,0 +1,55 @@
+// issues.js
+import { getRecentIssues } from "./firebase/issues-service.js";
+
+async function loadPage() {
+    const listContainer = document.getElementById("issues-list");
+
+    // 1. Fetch Data
+    const issues = await getRecentIssues();
+
+    // 2. Clear Loading Text
+    listContainer.innerHTML = "";
+
+    // 3. Handle Empty State
+    if (issues.length === 0) {
+        listContainer.innerHTML =
+            "<p style='text-align:center; color: white;'>No issues yet. Be the first! 🏆</p>";
+        return;
+    }
+
+    // 4. Render Cards
+    issues.forEach((issue) => {
+        // Safe Data Access (Handle missing fields)
+        const category = issue.ai_analysis?.category || "General";
+        const urgency = issue.ai_analysis?.urgency || "Low";
+        const desc = issue.user_description || "No description provided";
+        const status = issue.status || "Pending";
+
+        // Format Date
+        let dateStr = "Recently";
+        if (issue.timestamp) {
+            dateStr = new Date(issue.timestamp).toLocaleDateString();
+        }
+
+        // Generate HTML
+        const cardHTML = `
+            <div class="issue-card border-${urgency}">
+                <div class="card-top">
+                    <span>${category}</span>
+                    <span style="color: #333;">${urgency} Priority</span>
+                </div>
+                <h3 class="card-title">${desc}</h3>
+                <div class="card-bottom">
+                    <span>Status: <b>${status.toUpperCase()}</b></span>
+                    <span>📅 ${dateStr}</span>
+                </div>
+            </div>
+        `;
+
+        // Inject into page
+        listContainer.innerHTML += cardHTML;
+    });
+}
+
+// Run immediately
+loadPage();
