@@ -8,9 +8,11 @@
 
 /* 1. Layout Container */
 .issues-page {
-    height: 85vh; /* Takes up most of the screen */
     display: flex;
     flex-direction: column;
+    width: 95%;
+    max-width: 600px;
+    height: 85vh;
 }
 
 /* 2. Header & Navigation */
@@ -22,14 +24,22 @@
     margin-bottom: 20px;
 }
 
+/* 2. Header & Navigation */
 .back-link {
     position: absolute;
     left: 0;
-    color: #ffcc00; /* Yellow to pop against purple */
+    color: #ffffff; 
     text-decoration: none;
     font-weight: bold;
     font-size: 1.2rem;
-    transition: transform 0.2s;
+    transition: transform 0.2s, opacity 0.2s;
+    opacity: 0.9;
+    z-index: 10; 
+}
+
+.back-link:hover {
+    transform: translateX(-5px);
+    opacity: 1; /* Bright white on hover */
 }
 
 .back-link:hover {
