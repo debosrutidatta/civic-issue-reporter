@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Civic Connect - City Admin Map</title>
+
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        />
+
+        <link rel="stylesheet" href="admin-map.css" />
+    </head>
+    <body>
+        <div class="sidebar">
+            <h2>🏛️ City Admin</h2>
+            <nav>
+                <a href="admin.html">📊 Dashboard</a>
+                <a href="#" class="active-link">📍 Active Map</a>
+                <a href="#">⚙️ Settings</a>
+            </nav>
+        </div>
+
+        <div id="map"></div>
+
+        <div class="map-legend">
+            <div class="legend-title">Urgency Level</div>
+            <div class="legend-item">
+                <span class="dot color-red"></span> High Criticality
+            </div>
+            <div class="legend-item">
+                <span class="dot color-yellow"></span> Medium Watch
+            </div>
+            <div class="legend-item">
+                <span class="dot color-blue"></span> Low / Routine
+            </div>
+        </div>
+
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script type="module" src="admin-map.js"></script>
+    </body>
+</html>
