@@ -3,6 +3,20 @@ An AI-powered civic engagement web app that auto-classifies reported public issu
 
 # website:
 
+## Demo Access
+
+**Citizen Portal**
+* Email: user@city.com
+* Password: user123
+
+**Admin Dashboard**
+* Email: admin@city.com
+* Password: admin123
+
+## AI Features
+
+The system uses AI to automatically categorize citizen reports by department and assign urgency levels (High, Medium, or Low) based on the text descriptions provided in the report.
+
 // JSON CONTRACT 
 
 {
