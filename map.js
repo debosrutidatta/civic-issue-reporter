@@ -4,7 +4,7 @@
 
 // 1. IMPORT SERVICE (Member 2's Database)
 import { saveIssue } from "./firebase/issues-service.js";
-// import { analyzeDescription } from "./ai-service.js"; // (Uncomment later)
+import { analyzeDescription } from "./ai-service.js";
 
 console.log("🚀 Map Controller Loaded. Waiting for interaction...");
 
@@ -101,7 +101,7 @@ function setupEventListeners() {
     // PART C: SUBMIT BUTTON LOGIC
     // ============================================================
     submitBtn.addEventListener("click", async function () {
-        // Get Data from Form
+        // 1. Get Data from Form
         const lat = document.getElementById("lat").value;
         const lng = document.getElementById("lng").value;
         const category = document.getElementById("category").value;
@@ -111,9 +111,7 @@ function setupEventListeners() {
         statusMsg.innerText = "";
         statusMsg.style.color = "#333";
 
-        // --- VALIDATION ---
-
-        // 1. Location Check
+        // 2. --- VALIDATION ---
         if (!lat || !lng) {
             statusMsg.innerText = "📍 Please select a location on the map!";
             statusMsg.style.color = "#e74c3c";
@@ -121,64 +119,64 @@ function setupEventListeners() {
             return;
         }
 
-        // 2. Category Check
         if (!category) {
             statusMsg.innerText = "⚠️ Please select an Issue Category.";
             statusMsg.style.color = "#e74c3c";
-            document.getElementById("category").focus(); // Focus the dropdown
+            document.getElementById("category").focus();
             shakeButton();
             return;
         }
 
-        // 3. Description Check
         if (description.trim().length < 5) {
             statusMsg.innerText =
                 "📝 Please provide a description (min 5 chars).";
             statusMsg.style.color = "#e74c3c";
-            document.getElementById("description").focus(); // Focus the text area
+            document.getElementById("description").focus();
             shakeButton();
             return;
         }
 
-        // UI: Show Spinner & Disable Button
+        // 3. UI: Show Spinner & Disable Button
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<div class="loader"></div> Processing...';
+        // Change "AI Analyzing" to "Processing Report" for a smoother feel
+        submitBtn.innerHTML = '<div class="loader"></div> Processing Report...';
         submitBtn.style.backgroundColor = "#95a5a6";
 
-        // Prepare Data Package for Database
-        const issueData = {
-            location: { lat: parseFloat(lat), lng: parseFloat(lng) },
-            category: category,
-            user_description: description,
-
-            // Placeholder for AI (Member 3 will add this later)
-            ai_analysis: "Pending",
-            status: "pending",
-            timestamp: new Date().toISOString(),
-        };
-
+        // 4. --- THE CORE LOGIC (AI + DATABASE) ---
         try {
-            // Send to Firebase
+            // A. Call Gemini AI (This will now use your Nuclear Fallback if it fails!)
+            const aiResults = await analyzeDescription(description);
+
+            // B. Prepare Data Package for Database
+            const issueData = {
+                location: { lat: parseFloat(lat), lng: parseFloat(lng) },
+                user_description: description,
+                image_url: "", // Member 2 will help link this later
+                ai_analysis: aiResults, // This will contain Category, Urgency, and Dept
+                status: "pending",
+                timestamp: new Date().toISOString(),
+            };
+
+            // 🚀 C. Send to Firebase
             const docId = await saveIssue(issueData);
 
-            //✅ SUCCESS! SWAP THE UI
+            // ✅ SUCCESS! SWAP THE UI
             console.log("✅ Report Saved! ID:", docId);
 
-            // Hide Form -> Show Success Card
             document.getElementById("form-container").style.display = "none";
             document.getElementById("success-container").style.display =
                 "block";
             document.getElementById("track-id").innerText = docId;
         } catch (error) {
-            console.error("Error saving:", error);
+            console.error("Critical Error:", error);
 
-            // Error State
-            statusMsg.innerText = "❌ Connection Failed. Check Console.";
+            // Error State UI
+            statusMsg.innerText = "❌ Submission Failed. Please try again.";
             statusMsg.style.color = "#e74c3c";
 
-            // Reset Button
+            // Reset Button so user can re-try
             submitBtn.disabled = false;
-            submitBtn.innerHTML = "Try Again ❌";
+            submitBtn.innerHTML = "Try Again 🚀";
             submitBtn.style.backgroundColor = "#e74c3c";
         }
     });
