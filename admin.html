@@ -1,65 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Civic Connect - Government Dashboard</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; display: flex; background-color: #f4f4f9; margin: 0; }
-        
-        /* Sidebar Design */
-        .sidebar { width: 250px; background: #2c3e50; color: white; height: 100vh; padding: 20px; box-sizing: border-box; position: fixed; }
-        .sidebar h2 { margin-top: 0; }
-        .sidebar p { padding: 12px; cursor: pointer; border-radius: 5px; }
-        .sidebar p:hover { background: #34495e; }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Civic Connect - Government Dashboard</title>
+        <style>
+            /* Sidebar & Root Styling */
+            body {
+                font-family: "Inter", -apple-system, BlinkMacSystemFont,
+                    sans-serif;
+                display: flex;
+                background-color: #f1f5f9;
+                margin: 0;
+                color: #334155;
+            }
+            .sidebar {
+                width: 260px;
+                background: #1e293b;
+                color: white;
+                height: 100vh;
+                padding: 30px 20px;
+                position: fixed;
+                border-right: 1px solid #e2e8f0;
+            }
 
-        /* Main Content */
-        .content { flex: 1; padding: 40px; margin-left: 250px; }
-        h1 { color: #2c3e50; }
+            /* Main Content Area */
+            .content {
+                flex: 1;
+                padding: 50px;
+                margin-left: 260px;
+                max-width: 1200px;
+            }
+            h1 {
+                color: #0f172a;
+                font-size: 1.85rem;
+                font-weight: 800;
+                margin-bottom: 30px;
+                letter-spacing: -0.025em;
+            }
 
-        /* Table Design */
-        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background-color: #34495e; color: white; }
+            /* Table Professionalism & Grid Lines */
+            .table-container {
+                background: white;
+                border-radius: 12px;
+                border: 1px solid #e2e8f0;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                text-align: left;
+            }
 
-        /* Badges & Dropdowns */
-        .badge { padding: 5px 12px; border-radius: 20px; font-weight: bold; color: white; font-size: 0.85em; }
-        .high { background: #e74c3c; }
-        .medium { background: #f1c40f; color: black; }
-        .low { background: #3498db; }
-        
-        select.status-dropdown { padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-weight: bold; cursor: pointer; }
-        .status-pending { background-color: #ffebee; color: #c62828; }
-        .status-progress { background-color: #fff8e1; color: #f57f17; }
-        .status-resolved { background-color: #e8f5e9; color: #2e7d32; }
-    </style>
-</head>
-<body>
+            /* Header: Dark, Bold, and Clear */
+            th {
+                background-color: #f8fafc;
+                color: #64748b;
+                padding: 18px 16px;
+                text-transform: uppercase;
+                font-size: 0.7rem;
+                font-weight: 700;
+                letter-spacing: 0.1em;
+                border-bottom: 2px solid #e2e8f0;
+            }
 
-    <div class="sidebar">
-        <h2>🏛️ City Admin</h2>
-        <p>📊 Dashboard</p>
-        <p><a href="admin-map.html" style="text-decoration:none; color:inherit;">📍 Active Map</a></p>
-        <p>⚙️ Settings</p>
-    </div>
+            /* Distinct Row Borders */
+            td {
+                padding: 24px 16px;
+                border-bottom: 1px solid #e2e8f0;
+                vertical-align: middle;
+            }
+            tbody tr:last-child td {
+                border-bottom: none;
+            }
+            tbody tr:hover {
+                background-color: #f8fafc;
+            }
 
-    <div class="content">
-        <h1>Incoming Public Reports</h1>
-        <table id="issues-table">
-            <thead>
-                <tr>
-                    <th>Department</th>
-                    <th>Issue Type</th>
-                    <th>Description</th>
-                    <th>Urgency</th>
-                    <th>Update Status</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
+            /* Status "Dot" System (No Emojis) */
+            .status-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .status-indicator {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                display: block;
+            }
+            .bg-pending {
+                background-color: #ef4444;
+                box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+            }
+            .bg-in_progress {
+                background-color: #f59e0b;
+                box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+            }
+            .bg-resolved {
+                background-color: #10b981;
+                box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+            }
 
-    <script type="module" src="admin.js"></script>
+            /* Text & Buttons */
+            .dept-name {
+                font-weight: 700;
+                color: #1e293b;
+                font-size: 0.85rem;
+            }
+            .map-btn {
+                font-size: 0.75rem;
+                font-weight: 600;
+                color: #475569;
+                text-decoration: none;
+                padding: 6px 12px;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                background: #fff;
+                transition: all 0.2s;
+            }
+            .map-btn:hover {
+                background: #f1f5f9;
+                border-color: #94a3b8;
+                color: #1e293b;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="sidebar">
+            <h2>City Admin</h2>
+            <p>Dashboard</p>
+            <p>
+                <a
+                    href="admin-map.html"
+                    style="text-decoration: none; color: inherit"
+                    >Active Map</a
+                >
+            </p>
+            <p>Settings</p>
+        </div>
 
-</body>
+        <div class="content">
+            <h1>Central Management System: Public Reports</h1>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Evidence</th>
+                            <th>Department</th>
+                            <th>Issue Type</th>
+                            <th>Incident Details</th>
+                            <th>Urgency</th>
+                            <th>Spatial Data</th>
+                            <th>Protocol Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="issues-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <script type="module" src="admin.js"></script>
+    </body>
 </html>
