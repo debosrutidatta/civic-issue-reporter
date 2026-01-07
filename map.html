@@ -37,11 +37,10 @@
                     <option value="" disabled selected>
                         -- Select Type --
                     </option>
-                    <option value="Roads">🚧 Pothole / Road</option>
-                    <option value="Garbage">🗑️ Garbage Dump</option>
-                    <option value="Electricity">💡 Street Light</option>
-                    <option value="Water Supply">💧 Water Leakage</option>
-                    <option value="Traffic">🚦 Traffic Issue</option>
+                    <option value="Roads">Road Damage / Pothole</option>
+                    <option value="Garbage">Waste & Sanitation</option>
+                    <option value="Electricity">Street Lighting</option>
+                    <option value="Water Supply">Water Pipeline</option>
                 </select>
 
                 <label>Description:</label>
@@ -50,6 +49,15 @@
                     rows="4"
                     placeholder="Describe the issue..."
                 ></textarea>
+
+                <label>Add a Photo:</label>
+                <input
+                    type="file"
+                    id="imageFile"
+                    accept="image/*"
+                    class="file-input"
+                    style="margin-bottom: 10px"
+                />
 
                 <button class="btn-submit" id="submitBtn">
                     🚀 Submit Report
