@@ -56,24 +56,24 @@ onSnapshot(q, (snapshot) => {
             <td>
                 ${
                     imageUrl
-                        ? `<img src="${imageUrl}" class="admin-img" style="width:52px; height:52px; object-fit:cover; border-radius:8px; border: 1px solid #e2e8f0; cursor: pointer;" onclick="window.open('${imageUrl}')">`
-                        : '<span style="color:#cbd5e1; font-size:0.7rem;">NO PHOTO</span>'
+                        ? `<img src="${imageUrl}" style="width:54px; height:54px; object-fit:cover; border-radius:8px; border: 1px solid #e2e8f0; cursor: pointer;" onclick="window.open('${imageUrl}')">`
+                        : '<span style="color:#cbd5e1; font-size:0.75rem; font-weight:800;">NO PHOTO</span>'
                 }
             </td>
-            <td><span class="dept-name">${department}</span></td>
-            <td><span style="font-size: 0.85rem; color: #475569;">${category}</span></td>
+            <td><span class="data-field">${department}</span></td>
+            <td><span class="data-field">${category}</span></td>
             <td>
-                <div style="font-weight:500; color:#1e293b; margin-bottom:4px; max-width: 350px;">${description}</div>
-                <div style="font-size:0.7rem; color:#94a3b8;">AI SENTIMENT: ${sentiment.toUpperCase()}</div>
+                <div style="font-weight:600; color:#1e293b; margin-bottom:4px; max-width: 350px;">${description}</div>
+                <div style="font-size:0.7rem; color:#94a3b8; font-weight:700;">AI SENTIMENT: ${sentiment.toUpperCase()}</div>
             </td>
             <td><span class="badge ${urgency.toLowerCase()}">${urgency}</span></td>
             <td>
-                <a href="https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=18/${lat}/${lng}" target="_blank" class="map-btn">VIEW LOCATION</a>
+                <a href="https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=18/${lat}/${lng}" target="_blank" class="map-btn">view location</a>
             </td>
             <td>
-                <div class="status-wrapper" style="display: flex; align-items: center; gap: 10px;">
-                    <div class="status-indicator ${statusColor}" style="width: 10px; height: 10px; border-radius: 50%;"></div>
-                    <select class="status-dropdown" data-id="${id}" style="border:none; background:transparent; font-weight:600; color:#334155; cursor:pointer; outline: none;">
+                <div class="status-wrapper">
+                    <div class="status-indicator ${statusColor}"></div>
+                    <select class="status-dropdown" data-id="${id}" style="border:none; background:transparent; font-weight:700; color:#1e293b; cursor:pointer; outline: none;">
                         <option value="pending" ${
                             status === "pending" ? "selected" : ""
                         }>Pending</option>
