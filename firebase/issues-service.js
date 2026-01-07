@@ -12,19 +12,14 @@ import { db } from "./firebase-config.js";
 
 // --- 1. SAVE ISSUE (For Map Page) ---
 export async function saveIssue(issueData) {
-    console.log("🔥 Attempting to save to Firebase...");
-
+    console.log("Attempting to save to Firebase...");
     try {
-        const docRef = await addDoc(collection(db, "issues"), {
-            ...issueData,
-            timestamp: new Date().toISOString(),
-            status: "pending",
-        });
-
-        console.log("✅ Saved to Cloud! ID: ", docRef.id);
+        // Just save exactly what is in issueData
+        const docRef = await addDoc(collection(db, "issues"), issueData);
+        console.log("Saved to Cloud! ID: ", docRef.id);
         return docRef.id;
     } catch (e) {
-        console.error("❌ Database Error: ", e);
+        console.error("Database Error: ", e);
         throw e;
     }
 }
@@ -33,7 +28,7 @@ export async function saveIssue(issueData) {
 // Fetches the 20 newest reports. Used by both issues.html and admin-list.html
 export async function getRecentIssues() {
     try {
-        console.log("⏳ Fetching recent issues...");
+        console.log("Fetching recent issues...");
 
         // Query: Collection 'issues', Sort by 'timestamp' (Newest first), Limit 20
         const q = query(
@@ -50,10 +45,10 @@ export async function getRecentIssues() {
             ...doc.data(),
         }));
 
-        console.log(`✅ Found ${issuesList.length} issues.`);
+        console.log(`Found ${issuesList.length} issues.`);
         return issuesList;
     } catch (error) {
-        console.error("❌ Error fetching issues:", error);
+        console.error("Error fetching issues:", error);
         return []; // Return empty list so the app doesn't crash
     }
 }

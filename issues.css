@@ -42,10 +42,6 @@
     opacity: 1; /* Bright white on hover */
 }
 
-.back-link:hover {
-    transform: translateX(-5px);
-}
-
 /* 3. The Scrollable List Area */
 .scroll-container {
     flex-grow: 1; /* Fills remaining space */
@@ -67,23 +63,33 @@
     border-radius: 4px;
 }
 
-/* 4. The Issue Card (Glassmorphism Effect) */
-.issue-card {
-    background: rgba(
-        255,
-        255,
-        255,
-        0.95
-    ); /* High opacity white for readability */
-    color: #333;
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    border-left: 6px solid #ccc; /* Default Grey Border */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
-    animation: slideIn 0.4s ease-out;
+/* 5. Card Image Styling */
+.card-img {
+    width: 100%;
+    height: 180px; /* Fixed height for a uniform look */
+    object-fit: cover; /* Prevents image stretching */
+    border-radius: 12px 12px 0 0; /* Match card top corners */
+    display: block;
+    border-bottom: 1px solid #eee;
 }
 
+/* 6. Padding Adjustment */
+/* This ensures the text isn't touching the image or card edges */
+.card-inner-padding {
+    padding: 15px;
+}
+
+.issue-card {
+    padding: 0; 
+    overflow: hidden; 
+    border-left: 6px solid #ccc; /* ⬅️ ADD THIS LINE BACK */
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.4s ease-out;
+}
 /* Urgency Color Indicators */
 .border-High {
     border-left-color: #ef4444;

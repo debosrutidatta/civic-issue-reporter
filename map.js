@@ -144,20 +144,32 @@ function setupEventListeners() {
 
         // 4. --- THE CORE LOGIC (AI + DATABASE) ---
         try {
-            // A. Call Gemini AI (This will now use your Nuclear Fallback if it fails!)
+            // A. Get the file from your HTML input
+            const fileInput = document.getElementById("imageFile");
+            const file = fileInput.files[0];
+            let imageUrl = "";
+
+            // B. If a photo was selected, upload it first
+            if (file) {
+                submitBtn.innerHTML =
+                    '<div class="loader"></div> Uploading Image...';
+                imageUrl = await uploadToImgBB(file);
+            }
+
+            // C. Call your Gemini AI / Fallback Analysis
             const aiResults = await analyzeDescription(description);
 
-            // B. Prepare Data Package for Database
+            // D. Prepare Data Package (Matches your JSON Contract)
             const issueData = {
                 location: { lat: parseFloat(lat), lng: parseFloat(lng) },
                 user_description: description,
-                image_url: "", // Member 2 will help link this later
-                ai_analysis: aiResults, // This will contain Category, Urgency, and Dept
+                image_url: imageUrl,
+                ai_analysis: aiResults,
                 status: "pending",
                 timestamp: new Date().toISOString(),
             };
 
-            // 🚀 C. Send to Firebase
+            // E. Save to Firebase
             const docId = await saveIssue(issueData);
 
             // ✅ SUCCESS! SWAP THE UI
@@ -220,4 +232,20 @@ function setupEventListeners() {
         btn.classList.add("shake");
         setTimeout(() => btn.classList.remove("shake"), 500);
     }
+}
+
+// Function to upload image to ImgBB
+async function uploadToImgBB(file) {
+    const apiKey = "9b2e4d6a87268310de101af26d418644"; 
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
+        method: "POST",
+        body: formData,
+    });
+
+    const data = await response.json();
+    if (!data.success) throw new Error("Image upload failed");
+    return data.data.url;
 }
