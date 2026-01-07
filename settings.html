@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Civic Connect - System Configuration</title>
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+        />
+        <style>
+            /* Sidebar & Root Styling */
+            body {
+                font-family: "Inter", sans-serif;
+                display: flex;
+                background-color: #f1f5f9;
+                margin: 0;
+                color: #334155;
+            }
+
+            .sidebar {
+                width: 260px;
+                background: #1e293b;
+                color: white;
+                height: 100vh;
+                padding: 30px 20px;
+                position: fixed;
+                border-right: 1px solid #e2e8f0;
+            }
+            .sidebar h2 {
+                margin-top: 0;
+                margin-bottom: 30px;
+                font-size: 1.5rem;
+            }
+            .sidebar p {
+                padding: 12px;
+                border-radius: 8px;
+                margin-bottom: 5px;
+                transition: 0.2s;
+            }
+            .sidebar p:hover {
+                background: #33415e;
+            }
+            .sidebar p a {
+                color: white;
+                text-decoration: none;
+                display: block;
+                width: 100%;
+            }
+
+            /* Active Sidebar State (Matches your Blue Map Button) */
+            .sidebar p.active {
+                background: #2563eb;
+                font-weight: 600;
+                box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            }
+
+            /* Main Content Area */
+            .content {
+                flex: 1;
+                padding: 50px;
+                margin-left: 260px;
+                max-width: 800px;
+            }
+            h1 {
+                color: #0f172a;
+                font-size: 1.85rem;
+                font-weight: 800;
+                margin-bottom: 30px;
+                letter-spacing: -0.025em;
+            }
+
+            /* Settings Card */
+            .settings-card {
+                background: white;
+                padding: 40px;
+                border-radius: 12px;
+                border: 1px solid #e2e8f0;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            }
+
+            .form-group {
+                margin-bottom: 25px;
+            }
+            label {
+                display: block;
+                font-size: 0.75rem;
+                font-weight: 700;
+                color: #64748b;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                margin-bottom: 10px;
+            }
+
+            input,
+            select {
+                width: 100%;
+                padding: 12px;
+                border-radius: 8px;
+                border: 1px solid #cbd5e1;
+                background: #f8fafc;
+                font-size: 0.95rem;
+                color: #1e293b;
+                box-sizing: border-box;
+                outline: none;
+            }
+            input:focus {
+                border-color: #2563eb;
+                background: #fff;
+            }
+
+            .save-btn {
+                background: #1e293b;
+                color: white;
+                padding: 14px 28px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 600;
+                font-size: 0.9rem;
+                transition: 0.2s;
+            }
+            .save-btn:hover {
+                background: #0f172a;
+                transform: translateY(-1px);
+            }
+
+            /* System Status Footer */
+            .system-status {
+                margin-top: 40px;
+                padding-top: 25px;
+                border-top: 1px solid #f1f5f9;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .status-badge {
+                background-color: #dcfce7;
+                color: #16a34a;
+                padding: 6px 14px;
+                border-radius: 20px;
+                font-size: 0.7rem;
+                font-weight: 800;
+                letter-spacing: 0.05em;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="sidebar">
+            <h2>City Admin</h2>
+            <p><a href="admin.html">Dashboard</a></p>
+            <p><a href="admin-map.html">Active Map</a></p>
+            <p class="active"><a href="settings.html">Settings</a></p>
+        </div>
+
+        <div class="content">
+            <h1>System Configuration</h1>
+
+            <div class="settings-card">
+                <div class="form-group">
+                    <label>Primary Administrator</label>
+                    <input
+                        type="text"
+                        value="admin@city.com"
+                        readonly
+                        style="color: #94a3b8; cursor: not-allowed"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label>Notification Dispatch Channel</label>
+                    <input
+                        type="email"
+                        value="dispatch@kolkata.gov.in"
+                        id="adminEmail"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label>AI Processing Protocol</label>
+                    <select>
+                        <option>Strict (Manual Verification Only)</option>
+                        <option selected>
+                            Citizen-First (Auto-Categorize)
+                        </option>
+                        <option>Inclusive (Low Threshold)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Access Control Level</label>
+                    <p
+                        style="
+                            margin: 0;
+                            font-weight: 600;
+                            color: #1e293b;
+                            font-size: 0.9rem;
+                        "
+                    >
+                        Chief Administrative Officer
+                    </p>
+                </div>
+
+                <button
+                    class="save-btn"
+                    onclick="alert('Configuration Synchronized Successfully!')"
+                >
+                    Save Configuration
+                </button>
+
+                <div class="system-status">
+                    <div>
+                        <label style="margin-bottom: 0"
+                            >Database Infrastructure</label
+                        >
+                    </div>
+                    <span class="status-badge">FIREBASE ONLINE</span>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

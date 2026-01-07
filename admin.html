@@ -20,8 +20,37 @@
                 color: white;
                 height: 100vh;
                 padding: 30px 20px;
+                box-sizing: border-box;
                 position: fixed;
-                border-right: 1px solid #e2e8f0;
+                border-right: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .sidebar h2 {
+                margin-top: 0;
+                margin-bottom: 35px;
+                font-size: 1.3rem;
+                font-weight: 800;
+                color: #f8fafc;
+                letter-spacing: -0.025em;
+            }
+            .sidebar a {
+                text-decoration: none;
+                color: #94a3b8;
+                display: block;
+                padding: 12px 16px;
+                margin-bottom: 10px;
+                border-radius: 8px;
+                font-weight: 600;
+                font-size: 0.9rem;
+                transition: all 0.2s ease;
+            }
+            .sidebar a:hover {
+                background: #334155;
+                color: white;
+            }
+            .active-link {
+                background: #3b82f6 !important;
+                color: white !important;
+                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
             }
 
             /* Main Content Area */
@@ -130,15 +159,11 @@
     <body>
         <div class="sidebar">
             <h2>City Admin</h2>
-            <p>Dashboard</p>
-            <p>
-                <a
-                    href="admin-map.html"
-                    style="text-decoration: none; color: inherit"
-                    >Active Map</a
-                >
-            </p>
-            <p>Settings</p>
+            <a href="admin.html" class="active-link">Dashboard</a>
+
+            <a href="admin-map.html"> Active Map </a>
+
+            <a href="settings.html"> Settings </a>
         </div>
 
         <div class="content">
