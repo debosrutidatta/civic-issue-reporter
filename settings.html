@@ -3,220 +3,166 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Civic Connect - System Configuration</title>
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
-        />
+        <title>Civic Connect - Settings</title>
+        <link rel="stylesheet" href="admin-map.css" />
         <style>
-            /* Sidebar & Root Styling */
-            body {
-                font-family: "Inter", sans-serif;
+            /* Centering Logic */
+            .settings-wrapper {
+                margin-left: 260px; /* Sidebar offset */
                 display: flex;
-                background-color: #f1f5f9;
-                margin: 0;
-                color: #334155;
-            }
-
-            .sidebar {
-                width: 260px;
-                background: #1e293b;
-                color: white;
+                justify-content: center;
+                align-items: center;
                 height: 100vh;
-                padding: 30px 20px;
-                position: fixed;
-                border-right: 1px solid #e2e8f0;
-            }
-            .sidebar h2 {
-                margin-top: 0;
-                margin-bottom: 30px;
-                font-size: 1.5rem;
-            }
-            .sidebar p {
-                padding: 12px;
-                border-radius: 8px;
-                margin-bottom: 5px;
-                transition: 0.2s;
-            }
-            .sidebar p:hover {
-                background: #33415e;
-            }
-            .sidebar p a {
-                color: white;
-                text-decoration: none;
-                display: block;
-                width: 100%;
+                width: calc(100% - 260px);
+                background: #f8fafc;
             }
 
-            /* Active Sidebar State (Matches your Blue Map Button) */
-            .sidebar p.active {
-                background: #2563eb;
-                font-weight: 600;
-                box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-            }
-
-            /* Main Content Area */
-            .content {
-                flex: 1;
-                padding: 50px;
-                margin-left: 260px;
-                max-width: 800px;
-            }
-            h1 {
-                color: #0f172a;
-                font-size: 1.85rem;
-                font-weight: 800;
-                margin-bottom: 30px;
-                letter-spacing: -0.025em;
-            }
-
-            /* Settings Card */
-            .settings-card {
+            .logout-card {
                 background: white;
                 padding: 40px;
                 border-radius: 12px;
                 border: 1px solid #e2e8f0;
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            }
-
-            .form-group {
-                margin-bottom: 25px;
-            }
-            label {
-                display: block;
-                font-size: 0.75rem;
-                font-weight: 700;
-                color: #64748b;
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
-                margin-bottom: 10px;
-            }
-
-            input,
-            select {
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+                text-align: center;
                 width: 100%;
-                padding: 12px;
-                border-radius: 8px;
-                border: 1px solid #cbd5e1;
-                background: #f8fafc;
-                font-size: 0.95rem;
+                max-width: 400px;
+            }
+
+            .logout-card h2 {
                 color: #1e293b;
-                box-sizing: border-box;
-                outline: none;
-            }
-            input:focus {
-                border-color: #2563eb;
-                background: #fff;
+                font-size: 1.5rem;
+                margin-bottom: 20px;
             }
 
-            .save-btn {
-                background: #1e293b;
+            .admin-details {
+                margin-bottom: 30px;
+                color: #64748b;
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+
+            /* Logout Button - Using your color-red from CSS */
+            .logout-btn {
+                background: #ef4444;
                 color: white;
-                padding: 14px 28px;
                 border: none;
+                padding: 14px 28px;
                 border-radius: 8px;
+                font-weight: 700;
                 cursor: pointer;
-                font-weight: 600;
-                font-size: 0.9rem;
-                transition: 0.2s;
+                width: 100%;
+                transition: all 0.2s;
             }
-            .save-btn:hover {
-                background: #0f172a;
-                transform: translateY(-1px);
+            .logout-btn:hover {
+                background: #dc2626;
+                transform: translateY(-2px);
             }
 
-            /* System Status Footer */
-            .system-status {
-                margin-top: 40px;
-                padding-top: 25px;
-                border-top: 1px solid #f1f5f9;
-                display: flex;
-                justify-content: space-between;
+            /* Custom Confirmation Modal (Better than Windows Alert) */
+            .modal-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(15, 23, 42, 0.8); /* Dark Slate Overlay */
+                z-index: 2000;
+                justify-content: center;
                 align-items: center;
             }
-            .status-badge {
-                background-color: #dcfce7;
-                color: #16a34a;
-                padding: 6px 14px;
-                border-radius: 20px;
-                font-size: 0.7rem;
-                font-weight: 800;
-                letter-spacing: 0.05em;
+            .modal-content {
+                background: white;
+                padding: 30px;
+                border-radius: 12px;
+                max-width: 350px;
+                text-align: center;
+            }
+            .modal-btns {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+            }
+            .btn-confirm {
+                background: #ef4444;
+                color: white;
+                flex: 1;
+                padding: 10px;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                font-weight: 600;
+            }
+            .btn-cancel {
+                background: #f1f5f9;
+                color: #475569;
+                flex: 1;
+                padding: 10px;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                font-weight: 600;
             }
         </style>
     </head>
     <body>
         <div class="sidebar">
             <h2>City Admin</h2>
-            <p><a href="admin.html">Dashboard</a></p>
-            <p><a href="admin-map.html">Active Map</a></p>
-            <p class="active"><a href="settings.html">Settings</a></p>
+            <a href="admin.html">Dashboard</a>
+            <a href="admin-map.html">Active Map</a>
+            <a href="settings.html" class="active-link">Settings</a>
         </div>
 
-        <div class="content">
-            <h1>System Configuration</h1>
-
-            <div class="settings-card">
-                <div class="form-group">
-                    <label>Primary Administrator</label>
-                    <input
-                        type="text"
-                        value="admin@city.com"
-                        readonly
-                        style="color: #94a3b8; cursor: not-allowed"
-                    />
+        <div class="settings-wrapper">
+            <div class="logout-card">
+                <h2>Account Management</h2>
+                <div class="admin-details">
+                    <strong>Admin:</strong> admin@city.com<br />
+                    <strong>Role:</strong> Chief Administrative Officer
                 </div>
-
-                <div class="form-group">
-                    <label>Notification Dispatch Channel</label>
-                    <input
-                        type="email"
-                        value="dispatch@kolkata.gov.in"
-                        id="adminEmail"
-                    />
-                </div>
-
-                <div class="form-group">
-                    <label>AI Processing Protocol</label>
-                    <select>
-                        <option>Strict (Manual Verification Only)</option>
-                        <option selected>
-                            Citizen-First (Auto-Categorize)
-                        </option>
-                        <option>Inclusive (Low Threshold)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Access Control Level</label>
-                    <p
-                        style="
-                            margin: 0;
-                            font-weight: 600;
-                            color: #1e293b;
-                            font-size: 0.9rem;
-                        "
-                    >
-                        Chief Administrative Officer
-                    </p>
-                </div>
-
-                <button
-                    class="save-btn"
-                    onclick="alert('Configuration Synchronized Successfully!')"
-                >
-                    Save Configuration
+                <button class="logout-btn" onclick="openModal()">
+                    Logout Session
                 </button>
+            </div>
+        </div>
 
-                <div class="system-status">
-                    <div>
-                        <label style="margin-bottom: 0"
-                            >Database Infrastructure</label
-                        >
-                    </div>
-                    <span class="status-badge">FIREBASE ONLINE</span>
+        <div class="modal-overlay" id="logoutModal">
+            <div class="modal-content">
+                <h3 style="margin-top: 0">Confirm Logout</h3>
+                <p style="color: #64748b; font-size: 0.9rem">
+                    Are you sure you want to end your current administrative
+                    session?
+                </p>
+                <div class="modal-btns">
+                    <button class="btn-cancel" onclick="closeModal()">
+                        Cancel
+                    </button>
+                    <button class="btn-confirm" onclick="finalLogout()">
+                        Logout
+                    </button>
                 </div>
             </div>
         </div>
+
+        <script>
+            const modal = document.getElementById("logoutModal");
+
+            function openModal() {
+                modal.style.display = "flex";
+            }
+            function closeModal() {
+                modal.style.display = "none";
+            }
+
+            function finalLogout() {
+                // Clears any local storage if you have it, then redirects
+                window.location.href = "index.html";
+            }
+
+            // Close modal if user clicks outside of it
+            window.onclick = function (event) {
+                if (event.target == modal) closeModal();
+            };
+        </script>
     </body>
 </html>
