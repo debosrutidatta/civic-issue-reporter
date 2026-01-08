@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixMyCity | Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 380px;
+        }
+
+        /* Updated Title Styling */
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900; 
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            letter-spacing: -1px; /* Tighter spacing like the scientific logo */
+            line-height: 1;
+        }
+
+        /* Light Blue for "Fix" and "City" */
+        .color-light {
+            color: #3498db; 
+        }
+
+        /* Dark Blue for "My" */
+        .color-dark {
+            color: #2c3e50;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #576574;
+            margin-bottom: 8px;
+            margin-left: 5px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #edf2f7;
+            border-radius: 10px;
+            background-color: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+            color: #2d3436;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        select:focus {
+            border-color: #3498db;
+            background-color: #fff;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            background: #3498db;
+            color: white;
+            margin-top: 10px;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #2980b9;
+        }
+
+        #error {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h1>
+            <span class="color-light">Fix</span><span class="color-dark">My</span><span class="color-light">City</span> 🏙️
+        </h1>
+        
+        <div class="input-group">
+            <label>Your Role</label>
+            <select id="role" onchange="loadCredentialOptions()">
+                <option value="" disabled selected>Select role...</option>
+                <option value="citizen">Citizen</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Enter Email</label>
+            <select id="email">
+                <option value="" disabled selected>Select email...</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Enter Password</label>
+            <select id="pass">
+                <option value="" disabled selected>Select password...</option>
+            </select>
+        </div>
+
+        <button class="login-btn" onclick="validateUser()">Sign In</button>
+        <p id="error">❌ Please select all options from the menus</p>
+    </div>
+
+    <script>
+        function loadCredentialOptions() {
+            const role = document.getElementById('role').value;
+            const emailSelect = document.getElementById('email');
+            const passSelect = document.getElementById('pass');
+
+            emailSelect.innerHTML = '<option value="" disabled selected>Select email...</option>';
+            passSelect.innerHTML = '<option value="" disabled selected>Select password...</option>';
+
+            if (role === "citizen") {
+                emailSelect.options.add(new Option("user@city.com", "user@city.com"));
+                passSelect.options.add(new Option("user123", "user123"));
+            } 
+            else if (role === "admin") {
+                emailSelect.options.add(new Option("admin@city.com", "admin@city.com"));
+                passSelect.options.add(new Option("admin123", "admin123"));
+            }
+        }
+
+        function validateUser() {
+            const role = document.getElementById('role').value;
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+            const errorElement = document.getElementById('error');
+
+            if (!role || !email || !pass) {
+                errorElement.style.display = 'block';
+                return;
+            }
+
+            if (role === "admin") {
+                window.location.href = "admin.html";
+            } else if (role === "citizen") {
+                window.location.href = "home.html";
+            }
+        }
+    </script>
+</body>
+</html>
