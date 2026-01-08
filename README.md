@@ -1,4 +1,6 @@
-# civic-issue-reporter
+# FixMyCity
+
+### civic-issue-reporter
 An AI-powered civic engagement web app that auto-classifies reported public issues, urgency and location for rapid fixes in your city.
 
 # website:
@@ -16,6 +18,8 @@ An AI-powered civic engagement web app that auto-classifies reported public issu
 ## AI Features
 
 The system uses AI to automatically categorize citizen reports by department and assign urgency levels (High, Medium, or Low) based on the text descriptions provided in the report.
+
+Our platform leverages Gemini 2.0 Flash to instantly analyze citizen reports, storing the structured data in Firebase Firestore for real-time government intervention, all wrapped in a professional UI powered by Google Fonts
 
 // JSON CONTRACT 
 
