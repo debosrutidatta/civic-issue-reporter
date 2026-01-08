@@ -4,20 +4,20 @@ import { getRecentIssues } from "./firebase/issues-service.js";
 async function loadPage() {
     const listContainer = document.getElementById("issues-list");
 
-    // 1. Fetch Data
+
     const issues = await getRecentIssues();
 
-    // 2. Clear Loading Text
+    // Clear Loading Text
     listContainer.innerHTML = "";
 
-    // 3. Handle Empty State
+    // Handle Empty State
     if (issues.length === 0) {
         listContainer.innerHTML =
             "<p style='text-align:center; color: white;'>No issues yet. Be the first! 🏆</p>";
         return;
     }
 
-    // 4. Render Cards
+    // Render Cards
     issues.forEach((issue) => {
         const category = issue.ai_analysis?.category || "General";
         const urgency = issue.ai_analysis?.urgency || "Low";
@@ -54,5 +54,4 @@ async function loadPage() {
     });
 }
 
-// Run immediately
 loadPage();
