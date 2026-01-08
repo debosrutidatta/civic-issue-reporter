@@ -1,10 +1,8 @@
-// ai-service.js
-
 const API_KEY = "AIzaSyDTiXEO_8czub9691O2cSHFG2EZCMOG1zo";
 
 /**
  * This function sends the user's issue description to Gemini AI
- * and returns a structured civic issue analysis.
+ * and returns a structured issue analysis.
  */
 export async function analyzeDescription(userText) {
     console.log("🤖 Asking Gemini to analyze:", userText);
@@ -13,7 +11,7 @@ export async function analyzeDescription(userText) {
         "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" +
         API_KEY;
 
-    // ✅ FINAL, GENERIC & DATABASE-SAFE PROMPT
+    // GENERIC & DATABASE-SAFE PROMPT
     const prompt = `
 You are an AI assistant for a Civic Issue Reporting App.
 
@@ -61,7 +59,6 @@ Rules:
 
         console.log("Full Error Details:", JSON.stringify(data, null, 2));
 
-        // ADD SAFETY CHECK
         if (!data.candidates || data.candidates.length === 0) {
             console.error("Gemini Error:", data);
             throw new Error(
@@ -69,27 +66,26 @@ Rules:
             );
         }
 
-        // 1️⃣ Extract AI response text
+        // Extract AI response text
         const aiText = data.candidates[0].content.parts[0].text;
 
-        // 2️⃣ Clean accidental markdown (safety net)
+        // Clean accidental markdown
         const cleanJson = aiText
             .replace(/```json/g, "")
             .replace(/```/g, "")
             .trim();
 
-        // 3️⃣ Convert JSON string to JS object
         const result = JSON.parse(cleanJson);
 
-        console.log("✅ AI Analysis Success:", result);
+        console.log("AI Analysis Success:", result);
         return result;
     } catch (error) {
-        console.error("❌ AI API Failed, launching Smart Fallback:", error);
+        console.error("AI API Failed, launching Smart Fallback:", error);
 
-        // 🛟 SMART FALLBACK SYSTEM (The "Nuclear" Fix)
+        // Smart fallback system
         const text = userText.toLowerCase();
         
-        // 1. Set default values
+        // Set default values
         let result = {
             category: "Roads",
             urgency: "Medium",
@@ -97,7 +93,7 @@ Rules:
             department: "Municipal Corporation"
         };
 
-        // 2. Keyword matching for Category & Department
+        // Keyword matching for category & department
         if (text.includes("water") || text.includes("leak") || text.includes("pipe") || text.includes("sewage")) {
             result.category = "Water Supply";
             result.department = "Water Authority";
@@ -109,17 +105,17 @@ Rules:
             result.department = "Municipal Corporation";
         }
 
-        // 3. Keyword matching for Urgency
+        // Keyword matching for urgency
         if (text.includes("urgent") || text.includes("danger") || text.includes("flood") || text.includes("broken") || text.includes("immediate")) {
             result.urgency = "High";
         }
 
-        // 4. Keyword matching for Sentiment
+        // Keyword matching for sentiment
         if (text.includes("angry") || text.includes("bad") || text.includes("terrible") || text.includes("frustrated")) {
             result.sentiment = "Frustrated";
         }
 
-        console.log("🛠️ Local Analysis Complete:", result);
+        console.log("Local Analysis Complete:", result);
         return result; 
     }
 }

@@ -1,15 +1,12 @@
-// admin-map.js - The Brains of the Operation 🧠
-
 import { db } from "./firebase/firebase-config.js";
 import {
     collection,
     getDocs,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// 1. Initialize Map (Start zoomed out to India view)
+// Initialize map (Start zoomed out to India view)
 const map = L.map("map").setView([20.5937, 78.9629], 5);
 
-// 2. Add Tiles (CartoDB Voyager - Clean, Professional Look)
 L.tileLayer(
     "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
     {
@@ -18,39 +15,34 @@ L.tileLayer(
     }
 ).addTo(map);
 
-// 3. Load & Process Data
 async function loadSmartMap() {
     try {
         console.log("📡 Connecting to Satellite...");
         const querySnapshot = await getDocs(collection(db, "issues"));
 
         let markersArray = [];
-        let highUrgencyMarkers = []; // We track these to bring them to front
+        let highUrgencyMarkers = [];
 
         querySnapshot.forEach((doc) => {
             const issue = doc.data();
 
-            // ✅ VALIDATION: Only map if coordinates exist and are not 0,0
             if (
                 issue.location &&
                 issue.location.lat &&
                 issue.location.lng &&
                 issue.location.lat !== 0
             ) {
-                // --- 🌟 LOGIC 1: JITTER (Prevent Stacking) ---
-                // Adds ~5 meters of randomness so stacked pins spread out
                 const jitterAmount = 0.0003;
                 const finalLat =
                     issue.location.lat + (Math.random() - 0.5) * jitterAmount;
                 const finalLng =
                     issue.location.lng + (Math.random() - 0.5) * jitterAmount;
 
-                // --- 🎨 LOGIC 2: VISUALS (Match CSS) ---
                 const urgency = issue.ai_analysis?.urgency || "Low";
                 const category = issue.ai_analysis?.category || "Report";
                 const dept = issue.ai_analysis?.department || "General";
 
-                // Determine Colors & Classes based on Urgency
+                // Determine colors & classes based on urgency
                 let pinColor = "#3b82f6"; // Blue
                 let headerClass = "bg-low";
 
@@ -63,17 +55,14 @@ async function loadSmartMap() {
                     headerClass = "bg-high";
                 }
 
-                // --- 📍 LOGIC 3: CREATE DOT ---
                 const marker = L.circleMarker([finalLat, finalLng], {
-                    radius: 10, // Perfect dot size
+                    radius: 10,
                     fillColor: pinColor,
                     color: "#fff", // White border
                     weight: 2,
                     fillOpacity: 0.9,
                 }).addTo(map);
 
-                // --- 📝 LOGIC 4: POPUP CONTENT ---
-                // We use the CSS classes defined in admin-map.css
                 marker.bindPopup(`
                     <div class="popup-card">
                         <div class="popup-header ${headerClass}">
@@ -90,18 +79,15 @@ async function loadSmartMap() {
 
                 markersArray.push(marker);
 
-                // Track High Priority items
                 if (urgency === "High") {
                     highUrgencyMarkers.push(marker);
                 }
             }
         });
 
-        // --- 🚀 LOGIC 5: PRIORITY (Red on Top) ---
-        // This forces High Urgency pins to draw OVER blue pins
-        highUrgencyMarkers.forEach((marker) => marker.bringToFront());
+        highUrgencyMarkers.forEach((marker) => marker.bringToFront()); // This forces high urgency pins to draw over blue pins
 
-        // --- 🔎 LOGIC 6: AUTO-ZOOM ---
+        // Auto-zoom
         if (markersArray.length > 0) {
             console.log(`📍 Found ${markersArray.length} reports. Zooming in.`);
             const group = L.featureGroup(markersArray);
@@ -118,7 +104,7 @@ async function loadSmartMap() {
     }
 }
 
-// Backup: Find Admin Location if database is empty
+// Backup - find Admin location if database is empty
 function locateAdmin() {
     if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -142,5 +128,4 @@ function locateAdmin() {
     }
 }
 
-// Start the System
-loadSmartMap();
+loadSmartMap(); // Start the System

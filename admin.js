@@ -10,7 +10,7 @@ import {
 
 const tableBody = document.querySelector("#issues-table-body");
 
-// Configuration for Real-time Protocol Listener
+// configuration for real-time protocol listener
 const q = query(collection(db, "issues"), orderBy("timestamp", "desc"));
 
 onSnapshot(q, (snapshot) => {
@@ -30,7 +30,7 @@ onSnapshot(q, (snapshot) => {
         const issue = docSnap.data();
         const id = docSnap.id;
 
-        // Data Extraction based on Official JSON Contract
+        // Data Extraction based on JSON Contract
         const department = issue.ai_analysis?.department || "General";
         const category = issue.ai_analysis?.category || "Uncategorized";
         const urgency = issue.ai_analysis?.urgency || "Low";
@@ -43,7 +43,6 @@ onSnapshot(q, (snapshot) => {
         const lat = issue.location?.lat;
         const lng = issue.location?.lng;
 
-        // Protocol Status Styling
         const statusColor =
             status === "pending"
                 ? "bg-pending"
@@ -90,7 +89,6 @@ onSnapshot(q, (snapshot) => {
         tableBody.appendChild(row);
     });
 
-    // Attach Protocol Update Listeners
     attachDropdownListeners();
 });
 
