@@ -1,4 +1,3 @@
-// issues.js
 import { getRecentIssues } from "./firebase/issues-service.js";
 
 async function loadPage() {
