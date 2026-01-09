@@ -65,7 +65,7 @@ The frontend communicates with the AI and Firebase Firestore using a standardize
 
 ## Contributors | Team CivicForge
 
-* **Manjima Bose** – Team Lead & Backend Strategy
+* **Manjima Bose** – Team Lead & Cloud Backend Strategy
 * **Debosruti Datta** – Lead Developer & System Architecture
 * **Sampreeti Datta** - AI Strategist
-* **Kanyashree Paul** - Maps
+* **Kanyashree Paul** - Geospatial Interface Developer
